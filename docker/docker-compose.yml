@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+  app:
+    image: 'hotel-booking:latest'
+    ports: 
+      - 8081:8081
+    build:
+      context: .
+    container_name: hotel-booking-app
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/hotel
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+          
+  db:
+    image: 'postgres:13.1-alpine'
+    ports:
+      - 5433:5432
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=hotel
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
