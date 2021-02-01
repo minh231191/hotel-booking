@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,6 +24,7 @@ public class Hotel extends AuditableEntity {
   private String name;
   private String code;
   private String shortDescription;
+  @Column(length = 1000)
   private String description;
   private String address;
   private Double longtitude;
@@ -30,5 +33,14 @@ public class Hotel extends AuditableEntity {
   private String hotline;
   private String email;
   private String website;
+
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinTable(
+      schema = "hotel",
+      name = "hotel_amenity",
+      joinColumns = @JoinColumn(name = "hotel_id"),
+      inverseJoinColumns = @JoinColumn(name = "amenity_id")
+  )
+  private Set<Amenity> amenities = new HashSet<>();
 
 }

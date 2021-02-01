@@ -23,6 +23,11 @@ public class RoomController {
     return ResponseEntity.ok().body(roomService.getRooms(roomFilterDto));
   }
 
+  @GetMapping("{roomId}")
+  public ResponseEntity<RoomDto> getRoomById(@PathVariable Long roomId) {
+    return ResponseEntity.ok().body(roomService.getRoomById(roomId));
+  }
+
   @PostMapping
   public ResponseEntity<RoomDto> createRoom(@RequestBody RoomDto roomDto) {
     return ResponseEntity.ok().body(roomService.createRoom(roomDto));

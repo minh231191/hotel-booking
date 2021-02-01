@@ -35,6 +35,11 @@ public class RoomService {
     return roomMapper.toDtoList(roomRepository.findAll(romSpec));
   }
 
+  public RoomDto getRoomById(Long roomId) {
+    return roomMapper.toDto(roomRepository.findById(roomId)
+        .orElseThrow(() -> new EntityNotFoundException("Not found room with ID: " + roomId)));
+  }
+
   public RoomDto createRoom(RoomDto roomDto) {
     Room room = roomMapper.toEntity(roomDto);
     Long hotelId = room.getHotel().getId();

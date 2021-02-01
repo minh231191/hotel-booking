@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,6 +24,7 @@ public class Room extends AuditableEntity {
 
   private String name;
   private String code;
+  @Column(length = 1000)
   private String description;
   private String shortDescription;
   private Double area;
@@ -33,6 +36,15 @@ public class Room extends AuditableEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Hotel hotel;
+
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinTable(
+      schema = "hotel",
+      name = "room_amenity",
+      joinColumns = @JoinColumn(name = "room_id"),
+      inverseJoinColumns = @JoinColumn(name = "amenity_id")
+  )
+  private Set<Amenity> amenities = new HashSet<>();
 
   @Override
   public boolean equals(Object o) {

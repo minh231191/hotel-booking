@@ -5,7 +5,7 @@ import com.hotelbooking.common.mapper.EntityMapper;
 import com.hotelbooking.hotel.model.Hotel;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(uses = {AmenityMapper.class}, componentModel = "spring")
 public interface HotelMapper extends EntityMapper<HotelDto, Hotel> {
 
 }
